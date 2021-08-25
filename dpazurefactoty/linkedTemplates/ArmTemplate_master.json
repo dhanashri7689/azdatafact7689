@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "dpazurefactoty"
 		},
+		"AzureDatabricks_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks'"
+		},
 		"AzureSqlDB_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDB'"
@@ -45,6 +49,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"AzureDatabricks_accessToken": {
+						"value": "[parameters('AzureDatabricks_accessToken')]"
 					},
 					"AzureSqlDB_connectionString": {
 						"value": "[parameters('AzureSqlDB_connectionString')]"

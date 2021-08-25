@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "dpazurefactoty"
 		},
+		"AzureDatabricks_accessToken": {
+			"value": ""
+		},
 		"AzureSqlDB_connectionString": {
 			"value": ""
 		},
