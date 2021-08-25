@@ -5,6 +5,9 @@
 			"referenceName": "DPStorage",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Lake"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
