@@ -217,6 +217,15 @@
 				"[concat(variables('factoryId'), '/datasets/CustomerTableDS')]",
 				"[concat(variables('factoryId'), '/linkedServices/DPStorage')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": []
+			},
+			"dependsOn": []
 		}
 	]
 }
