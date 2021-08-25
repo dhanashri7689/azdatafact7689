@@ -76,8 +76,8 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "",
-			"table": ""
+			"schema": "SalesLT",
+			"table": "Customer"
 		}
 	}
 }
