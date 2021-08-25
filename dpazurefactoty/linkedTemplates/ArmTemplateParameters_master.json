@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "dpazurefactoty"
+		},
+		"AzureSqlDB_connectionString": {
+			"value": ""
+		},
+		"DPStorage_accountKey": {
+			"value": ""
+		},
+		"DPStorage_properties_typeProperties_url": {
+			"value": "https://dhanashri1.dfs.core.windows.net"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
