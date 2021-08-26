@@ -26,9 +26,15 @@
 				},
 				{
 					"name": "MovieRatingJoin"
+				},
+				{
+					"name": "SortByRating"
+				},
+				{
+					"name": "DropRatingMovieId"
 				}
 			],
-			"script": "source(output(\n\t\tmovieId as string,\n\t\ttitle as string,\n\t\tgenres as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'parquet') ~> MovieParDS\nsource(output(\n\t\tuserId as string,\n\t\tmovieId as string,\n\t\trating as string,\n\t\ttimestamp as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'parquet') ~> RatingParDS\nRatingParDS filter(rating >= \"1.0\") ~> RatingGRE1\nRatingGRE1, MovieParDS join(RatingParDS@movieId == MovieParDS@movieId,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> MovieRatingJoin"
+			"script": "source(output(\n\t\tmovieId as string,\n\t\ttitle as string,\n\t\tgenres as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'parquet') ~> MovieParDS\nsource(output(\n\t\tuserId as string,\n\t\tmovieId as string,\n\t\trating as string,\n\t\ttimestamp as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'parquet') ~> RatingParDS\nRatingParDS filter(rating >= \"1.0\") ~> RatingGRE1\nRatingGRE1, MovieParDS join(RatingParDS@movieId == MovieParDS@movieId,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> MovieRatingJoin\nMovieRatingJoin sort(asc(rating, true)) ~> SortByRating\nSortByRating select(mapColumn(\n\t\tuserId,\n\t\trating,\n\t\ttimestamp,\n\t\tmovieId = MovieParDS@movieId,\n\t\ttitle,\n\t\tgenres\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> DropRatingMovieId"
 		}
 	}
 }
