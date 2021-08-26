@@ -10,6 +10,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "MovieCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "RatingLake",
+						"type": "DatasetReference"
+					},
+					"name": "RatingCSV"
 				}
 			],
 			"sinks": [
@@ -19,14 +26,24 @@
 						"type": "LinkedServiceReference"
 					},
 					"name": "MovieToParquet"
+				},
+				{
+					"linkedService": {
+						"referenceName": "DPStorage",
+						"type": "LinkedServiceReference"
+					},
+					"name": "RatingToParquet"
 				}
 			],
 			"transformations": [
 				{
 					"name": "Select1"
+				},
+				{
+					"name": "Select2"
 				}
 			],
-			"script": "source(output(\n\t\tmovieId as string,\n\t\ttitle as string,\n\t\tgenres as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> MovieCSV\nMovieCSV select(mapColumn(\n\t\tmovieId,\n\t\ttitle,\n\t\tgenres\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> MovieToParquet"
+			"script": "source(output(\n\t\tmovieId as string,\n\t\ttitle as string,\n\t\tgenres as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> MovieCSV\nsource(output(\n\t\tuserId as string,\n\t\tmovieId as string,\n\t\trating as string,\n\t\ttimestamp as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> RatingCSV\nMovieCSV select(mapColumn(\n\t\tmovieId,\n\t\ttitle,\n\t\tgenres\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nRatingCSV select(mapColumn(\n\t\tuserId,\n\t\tmovieId,\n\t\trating,\n\t\ttimestamp\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> MovieToParquet\nSelect2 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'parquet',\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RatingToParquet"
 		}
 	}
 }
