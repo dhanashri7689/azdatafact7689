@@ -1,5 +1,5 @@
 {
-	"name": "DelimitedText1",
+	"name": "RatingLake",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "DPStorage",
