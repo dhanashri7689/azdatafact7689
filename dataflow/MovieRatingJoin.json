@@ -1,0 +1,34 @@
+{
+	"name": "MovieRatingJoin",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "MovieParquetDS",
+						"type": "DatasetReference"
+					},
+					"name": "MovieParDS"
+				},
+				{
+					"dataset": {
+						"referenceName": "RatingParquetDS",
+						"type": "DatasetReference"
+					},
+					"name": "RatingParDS"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "RatingGRE1"
+				},
+				{
+					"name": "MovieRatingJoin"
+				}
+			],
+			"script": "source(output(\n\t\tmovieId as string,\n\t\ttitle as string,\n\t\tgenres as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'parquet') ~> MovieParDS\nsource(output(\n\t\tuserId as string,\n\t\tmovieId as string,\n\t\trating as string,\n\t\ttimestamp as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tformat: 'parquet') ~> RatingParDS\nRatingParDS filter(rating >= \"1.0\") ~> RatingGRE1\nRatingGRE1, MovieParDS join(RatingParDS@movieId == MovieParDS@movieId,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> MovieRatingJoin"
+		}
+	}
+}
