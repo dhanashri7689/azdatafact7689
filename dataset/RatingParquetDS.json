@@ -1,0 +1,40 @@
+{
+	"name": "RatingParquetDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DPStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Lake"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "rating",
+				"fileSystem": "analytics"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "userId",
+				"type": "UTF8"
+			},
+			{
+				"name": "movieId",
+				"type": "UTF8"
+			},
+			{
+				"name": "rating",
+				"type": "UTF8"
+			},
+			{
+				"name": "timestamp",
+				"type": "UTF8"
+			}
+		]
+	}
+}

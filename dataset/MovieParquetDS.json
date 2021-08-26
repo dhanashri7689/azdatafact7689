@@ -1,0 +1,36 @@
+{
+	"name": "MovieParquetDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DPStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Lake"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "Movies",
+				"fileSystem": "analytics"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "movieId",
+				"type": "UTF8"
+			},
+			{
+				"name": "title",
+				"type": "UTF8"
+			},
+			{
+				"name": "genres",
+				"type": "UTF8"
+			}
+		]
+	}
+}
